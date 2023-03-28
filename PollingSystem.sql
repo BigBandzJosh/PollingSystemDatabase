@@ -1,3 +1,6 @@
+/*Did this work?*/
+
+
 CREATE DATABASE PollingSystem;
 BEGIN TRANSACTION;
 GO
