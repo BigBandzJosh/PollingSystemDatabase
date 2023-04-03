@@ -10,8 +10,6 @@ CREATE TABLE PollingSystem (
     PRIMARY KEY (PollingSystemID)
 );
 GO
-
-/*Storing AdminPassword or any password in SQL is not a good idea*/
 CREATE TABLE Admins (
     AdminID int NOT NULL IDENTITY(1,1),
     AdminName varchar(50) NOT NULL, 
@@ -122,31 +120,30 @@ VALUES ('Candidate1', 'CandAddress1', 55, 'Female', 'Active', 1),
   
 INSERT INTO Vote (VoterID, CandidateID, PollingStationID)
 VALUES (1, 1, 1),
-       (2, 2, 2),
-       (3, 2, 1),
-       (4, 1, 2),
-       (5, 2, 2),
-       (6, 3, 3),
-       (7, 1, 3),
-       (8, 3, 1),
-       (9, 2, 3),
-       (10, 3, 2),
-       (11, 1, 1),
-       (12, 3, 3),
-       (13, 2, 2),
-       (14, 1, 1),
-       (15, 3, 2),
-       (16, 2, 3),
-       (17, 1, 2),
-       (18, 2, 1),
-       (19, 3, 3),
-       (20, 1, 3),
-       (21, 2, 1),
-       (22, 3, 2),
-       (23, 1, 1),
-       (24, 2, 3),
-       (25, 3, 1);
-
+   (2, 2, 2),
+   (3, 2, 1),
+   (4, 1, 2),
+   (5, 2, 2),
+   (6, 3, 3),
+   (7, 1, 3),
+   (8, 3, 1),
+   (9, 2, 3),
+   (10, 3, 2),
+   (11, 1, 1),
+   (12, 3, 3),
+   (13, 2, 2),
+   (14, 1, 1),
+   (15, 3, 2),
+   (16, 2, 3),
+   (17, 1, 2),
+   (18, 2, 1),
+   (19, 3, 3),
+   (20, 1, 3),
+   (21, 2, 1),
+   (22, 3, 2),
+   (23, 1, 1),
+   (24, 2, 3),
+   (25, 3, 1);
     COMMIT TRANSACTION;
 
 
@@ -161,11 +158,48 @@ VALUES (1, 1, 1),
         /*Update Admin Login Credentials*/
         UPDATE Admins SET AdminName = 'JoshTheAdmin', AdminPassword = 'adminpass' WHERE AdminID = 1;
 
-        /*Delete specific Voter, changing the VoterID to match the specific user you need to delete*/
+        /*To delete a specific voter from the database*/
         DELETE FROM Voter WHERE VoterID = 1;
 
         /*Select 2 highest voted candidates*/
         SELECT TOP 2 CandidateName, COUNT(VoteID) AS Votes
+        FROM Candidate
+        INNER JOIN Vote ON Candidate.CandidateID = Vote.CandidateID
+        GROUP BY CandidateName
+        ORDER BY Votes DESC;
+
+        /*Select lowest voted candidates*/
+
+        SELECT TOP CandidateName, COUNT(VoteID) AS Votes
+        FROM Candidate
+        INNER JOIN Vote ON Candidate.CandidateID = Vote.CandidateID
+        GROUP BY CandidateName
+        ORDER BY Votes ASC;
+
+        /*Candidate who got between 5 to 15 votes*/
+        SELECT CandidateName, COUNT(VoteID) AS Votes
+        FROM Candidate
+        INNER JOIN Vote ON Candidate.CandidateID = Vote.CandidateID
+        GROUP BY CandidateName
+        HAVING COUNT(VoteID) BETWEEN 5 AND 15;
+
+        /*Voting record for each registered candidate*/
+        SELECT CandidateName, COUNT(VoteID) AS Votes
+        FROM Candidate
+        INNER JOIN Vote ON Candidate.CandidateID = Vote.CandidateID
+        GROUP BY CandidateName;
+
+        /*Winning candidate name*/
+        SELECT CandidateName, COUNT(VoteID) AS Votes
+        FROM Candidate
+        INNER JOIN Vote ON Candidate.CandidateID = Vote.CandidateID
+        GROUP BY CandidateName
+        ORDER BY Votes DESC;
+
+
+
+
+
       
 
 
