@@ -4,7 +4,7 @@
 CREATE DATABASE PollingSystem;
 BEGIN TRANSACTION;
 GO
-CREATE TABLE PollingSystems (
+CREATE TABLE PollingSystem (
     PollingSystemID int NOT NULL IDENTITY(1,1),
     PollName varchar(50) NOT NULL,
     PRIMARY KEY (PollingSystemID)
@@ -69,12 +69,16 @@ CREATE TABLE Vote (
 );
 GO
 COMMIT TRANSACTION;
+
+BEGIN TRANSACTION;
 GO
-INSERT INTO PollingSystems (PollName) 
+INSERT INTO PollingSystem (PollName) 
 VALUES ('Election 2024');
 
 INSERT INTO Admins (AdminName, AdminPassword, PollingSystemID)
-VALUES ('Admin', 'Password', 1);
+VALUES ('Admin', 'Password', 1),
+('Admin2', 'Password2', 1),
+('Admin3', 'Password3', 1);
 
 INSERT INTO PollingStation (PollingStationName, PollingStationAddress, PollingStationStatus, PollingSystemID) 
 VALUES ('PollingStation1', 'Address1', 'Open', 1),
@@ -112,9 +116,9 @@ VALUES  ('Jim', 'Address00', 28, 'Male', 'VoterPassword', 'Active', 1),
 
 
 INSERT INTO Candidate (CandidateName, CandidateAddress, CandidateAge, CandidateGender, CandidateStatus, PollingSystemID)
-VALUES ('Candidate1', 'CandAdd1', 55, 'Female', 'Active', 1),
-  ('Candidate2', 'CandAdd2', 42, 'Male', 'Active', 1),
-  ('Candidate3', 'CandAdd3', 33, 'Male', 'Active', 1);
+VALUES ('Candidate1', 'CandAddress1', 55, 'Female', 'Active', 1),
+  ('Candidate2', 'CandAddress2', 42, 'Male', 'Active', 1),
+  ('Candidate3', 'CandAddress3', 33, 'Male', 'Active', 1);
   
 INSERT INTO Vote (VoterID, CandidateID, PollingStationID)
 VALUES (1, 1, 1),
@@ -142,6 +146,28 @@ VALUES (1, 1, 1),
        (23, 1, 1),
        (24, 2, 3),
        (25, 3, 1);
+
+    COMMIT TRANSACTION;
+
+
+        /*Update Candidate*/
+        UPDATE Candidate SET CandidateName = 'Jane' WHERE CandidateID = 1;
+        UPDATE Candidate SET CandidateName = 'Josh' WHERE CandidateID = 2;
+        UPDATE Candidate SET CandidateName = 'Steve' WHERE CandidateID = 3;
+
+        /*Update Voter*/
+        UPDATE Voter SET VoterName = 'Luna' WHERE VoterID = 1;
+
+        /*Update Admin Login Credentials*/
+        UPDATE Admins SET AdminName = 'JoshTheAdmin', AdminPassword = 'adminpass' WHERE AdminID = 1;
+
+        /*Delete specific Voter, changing the VoterID to match the specific user you need to delete*/
+        DELETE FROM Voter WHERE VoterID = 1;
+
+        /*Select 2 highest voted candidates*/
+        SELECT TOP 2 CandidateName, COUNT(VoteID) AS Votes
+      
+
 
 
 
