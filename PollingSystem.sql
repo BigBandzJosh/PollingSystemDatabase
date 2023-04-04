@@ -158,7 +158,7 @@ VALUES (1, 2, 1),
         UPDATE Admins SET AdminName = 'JoshTheAdmin', AdminPassword = 'adminpass' WHERE AdminID = 1;
 
         /*To delete a specific voter from the database*/
-        DELETE FROM Voter WHERE VoterID = 1;
+        DELETE FROM Voter WHERE VoterID = 3;
 
         /*Select 2 highest voted candidates*/
         SELECT TOP 2 CandidateName, COUNT(VoteID) AS Votes
@@ -201,7 +201,7 @@ VALUES (1, 2, 1),
         FROM Voter
         INNER JOIN Vote ON Voter.VoterID = Vote.VoterID
         GROUP BY VoterName;
-        
+
 
 
         
