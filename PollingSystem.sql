@@ -160,6 +160,12 @@ VALUES (1, 2, 1),
         /*To delete a specific voter from the database*/
         DELETE FROM Voter WHERE VoterID = 3;
 
+        /*Clear all data from records without deleting the tables*/
+        TRUNACTE TABLE Voter;
+        TRUNACTE TABLE Candidate;
+        TRUNACTE TABLE Vote;
+        
+
         /*Select 2 highest voted candidates*/
         SELECT TOP 2 CandidateName, COUNT(VoteID) AS Votes
         FROM Candidate
@@ -201,19 +207,3 @@ VALUES (1, 2, 1),
         FROM Voter
         INNER JOIN Vote ON Voter.VoterID = Vote.VoterID
         GROUP BY VoterName;
-
-
-
-        
-        
-
-
-
-
-
-      
-
-
-
-
-
