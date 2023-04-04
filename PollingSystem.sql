@@ -1,6 +1,5 @@
 /*Did this work?*/
 
-
 CREATE DATABASE PollingSystem;
 BEGIN TRANSACTION;
 GO
@@ -119,21 +118,21 @@ VALUES ('Candidate1', 'CandAddress1', 55, 'Female', 'Active', 1),
   ('Candidate3', 'CandAddress3', 33, 'Male', 'Active', 1);
   
 INSERT INTO Vote (VoterID, CandidateID, PollingStationID)
-VALUES (1, 1, 1),
+VALUES (1, 2, 1),
    (2, 2, 2),
    (3, 2, 1),
-   (4, 1, 2),
+   (4, 2, 2),
    (5, 2, 2),
    (6, 3, 3),
    (7, 1, 3),
    (8, 3, 1),
    (9, 2, 3),
-   (10, 3, 2),
+   (10, 2, 2),
    (11, 1, 1),
    (12, 3, 3),
    (13, 2, 2),
    (14, 1, 1),
-   (15, 3, 2),
+   (15, 2, 2),
    (16, 2, 3),
    (17, 1, 2),
    (18, 2, 1),
@@ -170,7 +169,7 @@ VALUES (1, 1, 1),
 
         /*Select lowest voted candidates*/
 
-        SELECT TOP CandidateName, COUNT(VoteID) AS Votes
+        SELECT TOP 1 CandidateName, COUNT(VoteID) AS Votes
         FROM Candidate
         INNER JOIN Vote ON Candidate.CandidateID = Vote.CandidateID
         GROUP BY CandidateName
@@ -190,11 +189,23 @@ VALUES (1, 1, 1),
         GROUP BY CandidateName;
 
         /*Winning candidate name*/
-        SELECT CandidateName, COUNT(VoteID) AS Votes
+        SELECT TOP 1 CandidateName, COUNT(VoteID) AS Votes
         FROM Candidate
         INNER JOIN Vote ON Candidate.CandidateID = Vote.CandidateID
         GROUP BY CandidateName
         ORDER BY Votes DESC;
+
+
+        /*Voting record for each registered voter*/
+        SELECT VoterName, COUNT(VoteID) AS Votes
+        FROM Voter
+        INNER JOIN Vote ON Voter.VoterID = Vote.VoterID
+        GROUP BY VoterName;
+        
+
+
+        
+        
 
 
 
